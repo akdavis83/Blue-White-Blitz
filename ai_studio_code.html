@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blue & White Blitz | Penn State Gameday Experience</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,500;0,700;0,900;1,800&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+  
+  <!-- Anime.js CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+
+  <style>
+    :root {
+      --psu-navy: #041E42;
+      --psu-deep-blue: #020f24;
+      --blitz-blue: #0080ff;
+      --blitz-electric: #00d2ff;
+      --blitz-glow: rgba(0, 156, 222, 0.4);
+      --white: #ffffff;
+      --slate: #94a3b8;
+      --card-bg: rgba(4, 30, 66, 0.7);
+      --border-blue: rgba(0, 210, 255, 0.25);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: radial-gradient(circle at 50% 20%, #082855 0%, var(--psu-deep-blue) 75%);
+      color: var(--white);
+      font-family: 'Montserrat', sans-serif;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* Background Stadium Ambience */
+    .bg-grid {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-image: 
+        linear-gradient(rgba(0, 128, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 128, 255, 0.05) 1px, transparent 1px);
+      background-size: 60px 60px;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    /* ---------------- NAVBAR ---------------- */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      backdrop-filter: blur(14px);
+      background: rgba(2, 15, 36, 0.85);
+      border-bottom: 1px solid var(--border-blue);
+      transition: all 0.3s ease;
+    }
+
+    .nav-container {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0.8rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      color: var(--white);
+    }
+
+    /* Requirement: Photo as logo in the top corner */
+    .nav-logo-img {
+      width: 50px;
+      height: 50px;
+      object-fit: contain;
+      border-radius: 8px;
+      box-shadow: 0 0 15px var(--blitz-glow);
+      background: #ffffff;
+      padding: 2px;
+      transition: transform 0.3s ease;
+    }
+
+    .nav-brand:hover .nav-logo-img {
+      transform: scale(1.08) rotate(3deg);
+    }
+
+    .nav-title {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.4rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      background: linear-gradient(90deg, #ffffff, var(--blitz-electric));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: #cbd5e1;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      letter-spacing: 0.5px;
+      transition: color 0.3s, text-shadow 0.3s;
+      position: relative;
+    }
+
+    .nav-links a:hover {
+      color: var(--blitz-electric);
+      text-shadow: 0 0 10px var(--blitz-electric);
+    }
+
+    .btn-nav {
+      padding: 0.6rem 1.4rem;
+      background: linear-gradient(135deg, var(--blitz-blue), var(--blitz-electric));
+      color: var(--psu-deep-blue);
+      font-weight: 800;
+      border-radius: 50px;
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      box-shadow: 0 4px 15px rgba(0, 210, 255, 0.4);
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+
+    .btn-nav:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 210, 255, 0.6);
+    }
+
+    /* ---------------- HERO SECTION ---------------- */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: 120px 2rem 60px;
+    }
+
+    .hero-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      align-items: center;
+      gap: 3rem;
+    }
+
+    .hero-tag {
+      display: inline-block;
+      padding: 0.4rem 1.2rem;
+      border-radius: 20px;
+      background: rgba(0, 156, 222, 0.15);
+      border: 1px solid var(--blitz-electric);
+      color: var(--blitz-electric);
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+    }
+
+    .hero-title {
+      font-family: 'Oswald', sans-serif;
+      font-size: 4.2rem;
+      line-height: 1.05;
+      text-transform: uppercase;
+      font-weight: 700;
+      margin-bottom: 1.2rem;
+    }
+
+    .hero-title span {
+      background: linear-gradient(135deg, #ffffff 40%, var(--blitz-electric) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-desc {
+      font-size: 1.15rem;
+      color: #94a3b8;
+      margin-bottom: 2rem;
+      max-width: 520px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      padding: 0.9rem 2.2rem;
+      background: linear-gradient(135deg, #0077ff, var(--blitz-electric));
+      color: #020f24;
+      font-weight: 800;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border-radius: 6px;
+      text-decoration: none;
+      box-shadow: 0 0 25px rgba(0, 210, 255, 0.4);
+      transition: all 0.3s ease;
+      clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 0 35px rgba(0, 210, 255, 0.8);
+      transform: translateY(-3px);
+    }
+
+    .btn-outline {
+      padding: 0.9rem 2rem;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--blitz-electric);
+      color: var(--blitz-electric);
+      background: rgba(0, 210, 255, 0.05);
+    }
+
+    /* Requirement: Photo featured again as main component */
+    .hero-visual-wrapper {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .hero-glow-ring {
+      position: absolute;
+      width: 480px;
+      height: 480px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0, 210, 255, 0.3) 0%, rgba(4, 30, 66, 0) 70%);
+      filter: blur(40px);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .main-feature-img {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: 460px;
+      height: auto;
+      border-radius: 20px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 40px rgba(0, 160, 255, 0.35);
+      border: 2px solid rgba(0, 210, 255, 0.4);
+      background: #ffffff;
+      padding: 8px;
+    }
+
+    /* ---------------- STATS COUNTER ---------------- */
+    .stats-bar {
+      border-top: 1px solid var(--border-blue);
+      border-bottom: 1px solid var(--border-blue);
+      background: rgba(2, 15, 36, 0.7);
+      backdrop-filter: blur(10px);
+      padding: 2.5rem 2rem;
+    }
+
+    .stats-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      text-align: center;
+    }
+
+    .stat-box h3 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 3rem;
+      color: var(--blitz-electric);
+      margin-bottom: 0.2rem;
+    }
+
+    .stat-box p {
+      color: var(--slate);
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+    }
+
+    /* ---------------- SECTIONS COMMON ---------------- */
+    section {
+      padding: 100px 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+
+    .section-subtitle {
+      color: var(--blitz-electric);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .section-title {
+      font-family: 'Oswald', sans-serif;
+      font-size: 2.8rem;
+      text-transform: uppercase;
+      color: #ffffff;
+    }
+
+    /* ---------------- EVENTS / CARDS ---------------- */
+    .events-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+    }
+
+    .event-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-blue);
+      border-radius: 14px;
+      padding: 2.5rem 2rem;
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      transform: translateY(30px);
+      opacity: 0;
+    }
+
+    .event-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: linear-gradient(to bottom, var(--blitz-electric), var(--blitz-blue));
+    }
+
+    .event-time {
+      font-size: 0.85rem;
+      color: var(--blitz-electric);
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+
+    .event-card h3 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.7rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .event-card p {
+      color: var(--slate);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    /* ---------------- TIMELINE ---------------- */
+    .timeline-container {
+      position: relative;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .timeline-line {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: linear-gradient(to bottom, var(--blitz-electric), rgba(0, 128, 255, 0.1));
+      transform: translateX(-50%);
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 3.5rem;
+      width: 50%;
+      opacity: 0;
+    }
+
+    .timeline-item.left {
+      left: 0;
+      padding-right: 3rem;
+      text-align: right;
+    }
+
+    .timeline-item.right {
+      left: 50%;
+      padding-left: 3rem;
+      text-align: left;
+    }
+
+    .timeline-dot {
+      position: absolute;
+      top: 6px;
+      width: 16px;
+      height: 16px;
+      background: var(--blitz-electric);
+      border-radius: 50%;
+      box-shadow: 0 0 15px var(--blitz-electric);
+    }
+
+    .timeline-item.left .timeline-dot {
+      right: -8px;
+    }
+
+    .timeline-item.right .timeline-dot {
+      left: -8px;
+    }
+
+    .timeline-box {
+      background: var(--card-bg);
+      border: 1px solid var(--border-blue);
+      padding: 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+    }
+
+    .timeline-box h4 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.4rem;
+      color: #fff;
+    }
+
+    .timeline-box span {
+      display: inline-block;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--blitz-electric);
+      margin-bottom: 0.4rem;
+      letter-spacing: 1px;
+    }
+
+    /* ---------------- TICKETS / CTA ---------------- */
+    .cta-banner {
+      background: linear-gradient(135deg, rgba(4, 30, 66, 0.95), rgba(0, 65, 130, 0.9)), 
+                  radial-gradient(circle at 100% 0%, rgba(0, 210, 255, 0.25) 0%, transparent 60%);
+      border: 1px solid var(--blitz-electric);
+      border-radius: 20px;
+      padding: 4.5rem 3rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0, 128, 255, 0.2);
+    }
+
+    .cta-banner h2 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 3.5rem;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    .cta-banner p {
+      max-width: 600px;
+      margin: 0 auto 2.5rem;
+      color: #cbd5e1;
+      font-size: 1.1rem;
+    }
+
+    /* ---------------- FOOTER ---------------- */
+    footer {
+      background: var(--psu-deep-blue);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 3rem 2rem 2rem;
+      text-align: center;
+    }
+
+    .footer-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 1.5rem;
+    }
+
+    .footer-logo img {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+      background: #ffffff;
+      padding: 2px;
+      border-radius: 6px;
+    }
+
+    .footer-logo span {
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.3rem;
+      letter-spacing: 1px;
+    }
+
+    .footer-text {
+      color: #64748b;
+      font-size: 0.85rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .hero-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      .hero-desc {
+        margin: 0 auto 2rem;
+      }
+      .hero-buttons {
+        justify-content: center;
+      }
+      .hero-title {
+        font-size: 3rem;
+      }
+      .stats-container {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .timeline-line {
+        left: 20px;
+      }
+      .timeline-item {
+        width: 100%;
+        padding-left: 50px !important;
+        padding-right: 0 !important;
+        text-align: left !important;
+      }
+      .timeline-item.right {
+        left: 0;
+      }
+      .timeline-item .timeline-dot {
+        left: 12px !important;
+      }
+      .nav-links {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-grid"></div>
+
+  <!-- NAVBAR -->
+  <header>
+    <div class="nav-container">
+      <a href="#" class="nav-brand">
+        <!-- Feature 1: Image featured as logo in top corner -->
+        <img src="logo.png" alt="Blue & White Blitz Logo" class="nav-logo-img" />
+        <span class="nav-title">Blue & White Blitz</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#events">Gameday Events</a></li>
+        <li><a href="#schedule">Schedule</a></li>
+        <li><a href="#passes">Blitz Passes</a></li>
+      </ul>
+      <a href="#passes" class="btn-nav">Get Passes</a>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-text-block">
+        <span class="hero-tag">Official Penn State Football Experience</span>
+        <h1 class="hero-title">WE ARE.<br><span>BLUE & WHITE BLITZ.</span></h1>
+        <p class="hero-desc">
+          State College turns all the way up. Join 107,000 strong for the biggest annual Penn State rally, fan blitz, and gameday spectacle of the season at Beaver Stadium.
+        </p>
+        <div class="hero-buttons">
+          <a href="#passes" class="btn-primary">Secure Blitz Pass</a>
+          <a href="#schedule" class="btn-outline">View Itinerary</a>
+        </div>
+      </div>
+
+      <!-- Feature 2: Image featured as main component of the page -->
+      <div class="hero-visual-wrapper">
+        <div class="hero-glow-ring"></div>
+        <img src="logo.png" alt="Blue and White Blitz Main Crest" class="main-feature-img" />
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS BAR -->
+  <div class="stats-bar">
+    <div class="stats-container">
+      <div class="stat-box">
+        <h3 class="stat-number" data-target="107000">0</h3>
+        <p>Whiteout Roar</p>
+      </div>
+      <div class="stat-box">
+        <h3 class="stat-number" data-target="24">0</h3>
+        <p>Hours of Tailgate Energy</p>
+      </div>
+      <div class="stat-box">
+        <h3 class="stat-number" data-target="2">0</h3>
+        <p>National Championship Legacy</p>
+      </div>
+      <div class="stat-box">
+        <h3 class="stat-number" data-target="1">0</h3>
+        <p>Student Section In The Nation</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ABOUT & EXPERIENCES -->
+  <section id="events">
+    <div class="section-header">
+      <span class="section-subtitle">Experience The Roar</span>
+      <h2 class="section-title">Blitz Weekend Highlights</h2>
+    </div>
+
+    <div class="events-grid">
+      <div class="event-card">
+        <div class="event-time">Saturday • 9:00 AM</div>
+        <h3>The Blue Bus Arrival</h3>
+        <p>Line Curtin Road to welcome James Franklin and the Nittany Lions as they make their walk to Beaver Stadium through thousands of cheering fans.</p>
+      </div>
+
+      <div class="event-card">
+        <div class="event-time">Saturday • 11:30 AM</div>
+        <h3>Fan Fest & Tailgate Zone</h3>
+        <p>Live concert stages, tailgate battles, autograph sessions with Penn State legends, and official Nike blitz merchandise pop-ups.</p>
+      </div>
+
+      <div class="event-card">
+        <div class="event-time">Gameday • Kickoff</div>
+        <h3>The Blitz Stadium Lightshow</h3>
+        <p>Synchronized stadium lighting, fireworks, and the thunderous “Zombie Nation” stadium-wide pump-up that shakes Happy Valley to its core.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TIMELINE / SCHEDULE -->
+  <section id="schedule">
+    <div class="section-header">
+      <span class="section-subtitle">Gameday Breakdown</span>
+      <h2 class="section-title">Official Blitz Schedule</h2>
+    </div>
+
+    <div class="timeline-container">
+      <div class="timeline-line"></div>
+
+      <div class="timeline-item left">
+        <div class="timeline-dot"></div>
+        <div class="timeline-box">
+          <span>08:00 AM</span>
+          <h4>Tailgate Lots Open</h4>
+          <p>Beaver Stadium perimeter opens for tailgating, RV convoys, and student setup.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item right">
+        <div class="timeline-dot"></div>
+        <div class="timeline-box">
+          <span>10:30 AM</span>
+          <h4>Blue Band Pep Performance</h4>
+          <p>Penn State Marching Blue Band takes over the Bryce Jordan Center lawn with drumline battles.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item left">
+        <div class="timeline-dot"></div>
+        <div class="timeline-box">
+          <span>01:30 PM</span>
+          <h4>Stadium Gates Open</h4>
+          <p>Be the first into the south end zone for student giveaways, exclusive pins, and rally flags.</p>
+        </div>
+      </div>
+
+      <div class="timeline-item right">
+        <div class="timeline-dot"></div>
+        <div class="timeline-box">
+          <span>03:30 PM</span>
+          <h4>Kickoff & The Blitz</h4>
+          <p>107k+ fans united in Blue and White. WE ARE!</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA / PASSES -->
+  <section id="passes">
+    <div class="cta-banner">
+      <h2>Join The Blitz</h2>
+      <p>Passes include fast-track stadium entry, early tailgate parking access, and the official 2026 Blue & White Blitz collector lanyard and tee.</p>
+      <a href="#" class="btn-primary">Get Your Blitz Pass</a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">
+      <img src="logo.png" alt="Logo" />
+      <span>BLUE & WHITE BLITZ</span>
+    </div>
+    <p class="footer-text">
+      Penn State University • Beaver Stadium • Happy Valley, PA.<br>
+      © Blue & White Blitz. All rights reserved.
+    </p>
+  </footer>
+
+  <!-- ANIME.JS SCROLL & INTERACTIVE SCRIPT -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+
+      // 1. HERO ANIMATIONS (Entrance & Floating Effect)
+      anime({
+        targets: '.hero-tag',
+        opacity: [0, 1],
+        translateY: [-20, 0],
+        easing: 'easeOutExpo',
+        duration: 900,
+        delay: 200
+      });
+
+      anime({
+        targets: '.hero-title',
+        opacity: [0, 1],
+        translateY: [40, 0],
+        easing: 'easeOutExpo',
+        duration: 1000,
+        delay: 350
+      });
+
+      anime({
+        targets: '.hero-desc',
+        opacity: [0, 1],
+        translateY: [25, 0],
+        easing: 'easeOutExpo',
+        duration: 1000,
+        delay: 500
+      });
+
+      anime({
+        targets: '.hero-buttons .btn-primary, .hero-buttons .btn-outline',
+        opacity: [0, 1],
+        translateY: [20, 0],
+        easing: 'easeOutExpo',
+        duration: 800,
+        delay: anime.stagger(150, {start: 650})
+      });
+
+      // Main Featured Image Entrance + Subtle Float
+      anime({
+        targets: '.main-feature-img',
+        scale: [0.82, 1],
+        opacity: [0, 1],
+        rotate: [-3, 0],
+        easing: 'easeOutBack',
+        duration: 1400,
+        delay: 300,
+        complete: () => {
+          // Floating idle loop
+          anime({
+            targets: '.main-feature-img',
+            translateY: [-10, 10],
+            rotate: [-1, 1],
+            duration: 4000,
+            direction: 'alternate',
+            loop: true,
+            easing: 'easeInOutSine'
+          });
+        }
+      });
+
+      // Ambient Glow Pulse
+      anime({
+        targets: '.hero-glow-ring',
+        scale: [0.9, 1.25],
+        opacity: [0.3, 0.7],
+        duration: 3200,
+        direction: 'alternate',
+        loop: true,
+        easing: 'easeInOutQuad'
+      });
+
+      // 2. SCROLL TRIGGER WITH INTERSECTION OBSERVER & ANIME.JS
+
+      // Stats Count Up Animation Trigger
+      const statsObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            document.querySelectorAll('.stat-number').forEach(stat => {
+              const targetVal = +stat.getAttribute('data-target');
+              const obj = { count: 0 };
+              
+              anime({
+                targets: obj,
+                count: targetVal,
+                round: 1,
+                easing: 'easeOutExpo',
+                duration: 2500,
+                update: function() {
+                  if (targetVal >= 1000) {
+                    stat.innerHTML = obj.count.toLocaleString() + "+";
+                  } else if (targetVal === 1) {
+                    stat.innerHTML = "#" + obj.count;
+                  } else {
+                    stat.innerHTML = obj.count + " hrs";
+                  }
+                }
+              });
+            });
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.4 });
+
+      const statsBar = document.querySelector('.stats-bar');
+      if (statsBar) statsObserver.observe(statsBar);
+
+      // Event Cards Staggered Scroll Reveal
+      const cardsObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            anime({
+              targets: '.event-card',
+              opacity: [0, 1],
+              translateY: [60, 0],
+              scale: [0.95, 1],
+              delay: anime.stagger(180),
+              easing: 'easeOutCubic',
+              duration: 900
+            });
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.2 });
+
+      const eventsGrid = document.querySelector('.events-grid');
+      if (eventsGrid) cardsObserver.observe(eventsGrid);
+
+      // Timeline Scroll Animation
+      const timelineObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            anime({
+              targets: '.timeline-item.left',
+              opacity: [0, 1],
+              translateX: [-50, 0],
+              easing: 'easeOutExpo',
+              duration: 900,
+              delay: anime.stagger(250)
+            });
+
+            anime({
+              targets: '.timeline-item.right',
+              opacity: [0, 1],
+              translateX: [50, 0],
+              easing: 'easeOutExpo',
+              duration: 900,
+              delay: anime.stagger(250, { start: 150 })
+            });
+
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.2 });
+
+      const timelineContainer = document.querySelector('.timeline-container');
+      if (timelineContainer) timelineObserver.observe(timelineContainer);
+
+      // CTA Banner Reveal
+      const ctaObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            anime({
+              targets: '.cta-banner',
+              opacity: [0, 1],
+              scale: [0.92, 1],
+              easing: 'easeOutElastic(1, .8)',
+              duration: 1200
+            });
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.2 });
+
+      const ctaBanner = document.querySelector('.cta-banner');
+      if (ctaBanner) ctaObserver.observe(ctaBanner);
+
+      // Parallax interaction for the main image on mouse move
+      const visualWrapper = document.querySelector('.hero-visual-wrapper');
+      window.addEventListener('mousemove', (e) => {
+        const x = (window.innerWidth / 2 - e.pageX) / 35;
+        const y = (window.innerHeight / 2 - e.pageY) / 35;
+        anime({
+          targets: '.main-feature-img',
+          translateX: -x,
+          translateY: -y,
+          easing: 'easeOutQuad',
+          duration: 400
+        });
+      });
+    });
+  </script>
+</body>
+</html>
